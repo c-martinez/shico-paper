@@ -1,0 +1,168 @@
+@Article{Mikolov_CS2013,
+  Title                    = {Efficient estimation of word representations in vector space},
+  Author                   = {Mikolov, Tomas and Chen, Kai and Corrado, Greg and Dean, Jeffrey},
+  Journal                  = {CoRR},
+  Year                     = {2013},
+  Volume                   = {abs/1301.3781},
+
+  Abstract                 = {We propose two novel model architectures for computing continuous vector representations of words from very large data sets. The quality of these representations is measured in a word similarity task, and the results are compared to the previously best performing techniques based on different types of neural networks. We observe large improvements in accuracy at much lower computational cost, i.e. it takes less than a day to learn high quality word vectors from a 1.6 billion words data set. Furthermore, we show that these vectors provide state-of-the-art performance on our test set for measuring syntactic and semantic word similarities.},
+  File                     = {Mikolov_CS2013.pdf:papers/Mikolov_CS2013.pdf:PDF},
+  Owner                    = {carlosm},
+  Review                   = {nlesc RPG 3
+Word2Vec
+
+vector(”King”) - vector(”Man”) + vector(”Woman”) ~ vector("Queen")},
+  Timestamp                = {2015.06.24},
+  Url                      = {arXiv:1301.3781}
+}
+@Article{Mikolov_CoRR2013,
+  Title                    = {Exploiting Similarities among Languages for Machine Translation},
+  Author                   = {Mikolov, Tomas and Le, Quoc V. and Sutskever, Ilya},
+  Journal                  = {CoRR},
+  Year                     = {2013},
+  Volume                   = {abs/1309.4168},
+
+  Abstract                 = {Dictionaries and phrase tables are the basis of modern statistical machine translation systems. This paper develops a method that can automate the process of generating and extending dictionaries and phrase tables. Our method can translate missing word and phrase entries by learning language structures based on large monolingual data and mapping between languages from small bilingual data. It uses distributed representation of words and learns a linear mapping between vector spaces of languages. Despite its simplicity, our method is surprisingly effective: we can achieve almost 90% precision@5 for translation of words between English and Spanish. This method makes little assumption about the languages, so it can be used to extend and refine dictionaries and translation tables for any language pairs.},
+  Bibsource                = {dblp computer science bibliography, http://dblp.org},
+  Biburl                   = {http://dblp.uni-trier.de/rec/bib/journals/corr/MikolovLS13},
+  File                     = {Mikolov_CoRR2013.pdf:papers/Mikolov_CoRR2013.pdf:PDF},
+  Owner                    = {carlosm},
+  Review                   = {RPG 15
+Found by Dafne
+
+They transform between languages with a transformation matrix (rotation matrix) -- similar to ShiCo space rotation.
+They merge frequent bigrams (like ice cream) into unigrams (reference to Mikolov 2013b paper) -- interesting technique},
+  Timestamp                = {2016.11.16},
+  Url                      = {http://arxiv.org/abs/1309.4168}
+}
+@Article{Kim_CoRR2014,
+  Title                    = {Temporal Analysis of Language through Neural Language Models},
+  Author                   = {Yoon Kim and Yi{-}I. Chiu and Kentaro Hanaki and Darshan Hegde and Slav Petrov},
+  Journal                  = {CoRR},
+  Year                     = {2014},
+  Volume                   = {abs/1405.3515},
+
+  Abstract                 = {We provide a method for automatically detecting change in language across time through a chronologically trained neural language model. We train the model on the Google Books Ngram corpus to obtain word vector representations specific to each year, and identify words that have changed significantly from 1900 to 2009. The model identifies words such as "cell" and "gay" as having changed during that time period. The model simultaneously identifies the specific years during which such words underwent change.},
+  Bibsource                = {dblp computer science bibliography, http://dblp.org},
+  Biburl                   = {http://dblp.uni-trier.de/rec/bib/journals/corr/KimCHHP14},
+  File                     = {Kim_CoRR2014.pdf:papers/Kim_CoRR2014.pdf:PDF},
+  Owner                    = {carlosm},
+  Review                   = {Authors use method to automatically identify words which have changed in their usage over time.
+
+Recommended by reviewer of ShiCo Histoinformatics 2016 paper. Useful for ShiCo validation sprint.
+
+Interesting and related to shico convergence paper.},
+  Timestamp                = {2014.06.02},
+  Url                      = {http://arxiv.org/abs/1405.3515}
+}
+@InProceedings{Levy_CNLL2014,
+  Title                    = {Linguistic Regularities in Sparse and Explicit Word Representations},
+  Author                   = {Levy, Omer and Goldberg, Yoav},
+  Booktitle                = {Proceedings of the Eighteenth Conference on Computational Natural Language Learning},
+  Year                     = {2014},
+
+  Address                  = {Ann Arbor, Michigan},
+  Month                    = {June},
+  Pages                    = {171--180},
+  Publisher                = {Association for Computational Linguistics},
+
+  Abstract                 = {Recent work has shown that neural-embedded word representations capture many relational similarities, which can be recovered by means of vector arithmetic in the embedded space. We show that Mikolov et al.’s method of first adding and subtracting word vectors, and then searching for a word similar to the result, is equivalent to searching for a word that maximizes a linear combination of three pairwise word similarities. Based on this observation, we suggest an improved method of recovering relational similarities, improving the state-of-the-art results on two recent word-analogy datasets. Moreover, we demonstrate that analogy recovery is not restricted to neural word embeddings, and that a similar amount of relational similarities can be recovered from traditional distributional word representations.},
+  File                     = {Levy_CNLL2014.pdf:papers/Levy_CNLL2014.pdf:PDF},
+  Owner                    = {carlosm},
+  Review                   = {TO READ
+Mentioned on Gensim source code.},
+  Timestamp                = {2016.07.28},
+  Url                      = {http://www.aclweb.org/anthology/W14-1618}
+}
+@InProceedings{Cordeiro_ACL2016,
+  Title                    = {Predicting the Compositionality of Nominal Compounds: Giving Word
+ Embeddings a Hard Time},
+  Author                   = {Cordeiro, Silvio and
+ Ramisch, Carlos and
+ Idiart, Marco and
+ Villavicencio, Aline},
+  Booktitle                = {Proceedings of the 54th Annual Meeting of the Association for Computational
+ Linguistics, {ACL} 2016, August 7-12, 2016, Berlin, Germany, Volume
+ 1: Long Papers},
+  Year                     = {2016},
+
+  Abstract                 = {Distributional semantic models (DSMs) are often evaluated on artificial similarity datasets containing single words or fully compositional phrases.
+
+We present a large-scale multilingual evaluation of DSMs for predicting the degree of semantic compositionality of nominal compounds on 4 datasets for English and French.
+
+We build a total of 816 DSMs and perform 2,856 evaluations using word2vec, GloVe, and PPMI-based models. In addition to the DSMs, we compare the impact of different parameters, such as level of corpus preprocessing, context window size and number of dimensions. The results obtained have a high correlation with human judgments, being comparable to or outperforming the state of the art for some datasets (Spearman’s ρ=.82 for the Reddy dataset).},
+  Bibsource                = {dblp computer science bibliography, http://dblp.org},
+  Biburl                   = {http://dblp.uni-trier.de/rec/bib/conf/acl/CordeiroRIV16},
+  Crossref                 = {DBLP:conf/acl/2016-1},
+  File                     = {Cordeiro_ACL2016.pdf:papers/Cordeiro_ACL2016.pdf:PDF},
+  Owner                    = {carlosm},
+  Review                   = {Using w2v to idenity compositional nouns (bigrams which should be considered a single unit).
+
+RPG 16},
+  Timestamp                = {2017.01.23},
+  Url                      = {http://aclweb.org/anthology/P/P16/P16-1187.pdf}
+}
+@Article{Smith_ICLR2017,
+  Title                    = {Offline bilingual word vectors, orthogonal transformations and the inverted softmax},
+  Author                   = {Smith, Samuel L. and Turban, David H. P. and Hamblin, Steven and Hammerla, Nils Y.},
+  Journal                  = {CoRR},
+  Year                     = {2017},
+  Volume                   = {abs/1702.03859},
+
+  Abstract                 = {Usually bilingual word vectors are trained "online". Mikolov et al. showed they can also be found "offline", whereby two pre-trained embeddings are aligned with a linear transformation, using dictionaries compiled from expert knowledge. In this work, we prove that the linear transformation between two spaces should be orthogonal. This transformation can be obtained using the singular value decomposition. We introduce a novel "inverted softmax" for identifying translation pairs, with which we improve the precision @1 of Mikolov's original mapping from 34% to 43%, when translating a test set composed of both common and rare English words into Italian. Orthogonal transformations are more robust to noise, enabling us to learn the transformation without expert bilingual signal by constructing a "pseudo-dictionary" from the identical character strings which appear in both languages, achieving 40% precision on the same test set. Finally, we extend our method to retrieve the true translations of English sentences from a corpus of 200k Italian sentences with a precision @1 of 68%.},
+  Bibsource                = {dblp computer science bibliography, http://dblp.org},
+  Biburl                   = {http://dblp.uni-trier.de/rec/bib/journals/corr/SmithTHH17},
+  File                     = {Smith_ICLR2017.pdf:papers/Smith_ICLR2017.pdf:PDF},
+  Owner                    = {carlosm},
+  Review                   = {[RPG 18]
+Recommended by Vincent
+
+To read},
+  Timestamp                = {2017.05.02},
+  Url                      = {http://arxiv.org/abs/1702.03859}
+}
+@Misc{Speer_Blog2016,
+  Title                    = {Cramming for the test set: We need better ways to evaluate analogies},
+
+  Author                   = {Speer, Rob},
+  HowPublished             = {Blog},
+  Month                    = {June},
+  Year                     = {2016},
+
+  Owner                    = {carlosm},
+  Timestamp                = {2017.06.29},
+  Url                      = {https://blog.conceptnet.io/2016/06/01/cramming-for-the-test-set-we-need-better-ways-to-evaluate-analogies/}
+}
+@InProceedings{Martinez_Histo2016,
+  Title                    = {Design and implementation of ShiCo : Visualising shifting concepts over time},
+  Author                   = {Martinez-Ortiz, Carlos and Kenter, Tom and Wevers, Melvin and Huijnen, Pim and Verheul, Jaap and Van Eijnatten, Joris},
+  Booktitle                = {HistoInformatics 2016},
+  Year                     = {2016},
+  Volume                   = {CEUR Workshop Proceedings},
+
+  Abstract                 = {In different times, people use different words to describe concepts. Change and stability in word usage are possible indicators of wider socio-cultural changes. To gain insight into how people perceive concepts, it is valuable to trace how the words denoting a certain concept change over time. Existing tools for exploring historical concepts, such as keyword searching or topic modeling, are ill-suited for the task; they are either too top-down or too rigid for an iterative exploration of historical concepts in large data sets. In this article, we present ShiCo: a graphical interface for visualising concepts over time by monitoring shifts in word usage in a document corpus. As the dimension of time plays a crucial role in ShiCo, this article demonstrates ShiCo on a large corpus of newspaper articles spanning several decades. We describe the design choices made during the development of ShiCo and the key parameters that control the tool's behaviour. Lastly, as ShiCo is meant to be used by the broader community, we describe the steps required for running ShiCo on a novel data set.},
+  File                     = {Martinez_Histo2016.pdf:papers/Martinez_Histo2016.pdf:PDF},
+  Owner                    = {carlosm},
+  Review                   = {ShiCo paper},
+  Timestamp                = {2017.06.29}
+}
+@InProceedings{Hellrich_COLING2016,
+  Title                    = {Bad Company - Neighborhoods in Neural Embedding Spaces Considered Harmful},
+  Author                   = {Hellrich, Johannes and Hahn, Udo},
+  Booktitle                = {Proceedings of COLING 2016, the 26th International Conference on Computational Linguistics: Technical Papers},
+  Year                     = {2016},
+  Month                    = {December},
+  Pages                    = {2785 - 2796},
+
+  Abstract                 = {We assess the reliability and accuracy of (neural) word embeddings for both modern and historical
+English and German. Our research provides deeper insights into the empirically justified choice
+of optimal training methods and parameters. The overall low reliability we observe, nevertheless,
+casts doubt on the suitability of word neighborhoods in embedding spaces as a basis for qualitative
+conclusions on synchronic and diachronic lexico-semantic matters, an issue currently high up in
+the agenda of Digital Humanities.},
+  File                     = {Hellrich_COLING2016.pdf:papers/Hellrich_COLING2016.pdf:PDF},
+  Owner                    = {carlosm},
+  Review                   = {Recommended by Janneke
+Related to ShiCo validation paper.},
+  Timestamp                = {2017.06.28}
+}
