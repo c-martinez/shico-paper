@@ -25,11 +25,15 @@
 
 
 \begin{document}
-\title{Data driven measure of convergence for word embeddings}
+\title{Data-driven measure of convergence for word embeddings}
 \author{
-  Martinez-Ortiz, C.
+  Martinez-Ortiz, Carlos
   \and
-  Attema, J.
+  Attema, Jisk
+  \and
+  Bos, Patrick
+  \and
+  Kenter, Tom
 }
 
 \maketitle
@@ -37,7 +41,7 @@
 \begin{abstract}
 Word embeddings have been used in a wide range of applications. It is generally agreed that training a word embedding requires a significant amount of data, however it is never entirely clear how much data is enough for the word embedding to capture the semantic structure of the language it is being trained with. Specific tests, based on word analogies, have been used to decide when a word embedding has captured enough of the language structure to be considered meaningful. However this approach has several issues, amongst others the language specificity of such tests.
 
-In this paper we propose a completely data driven method for determining the level of convergence of a semantic model, which enables us to train semantic models with enough data for the model to capture the semantic structure of language and stop the training when the model does not benefit significantly from the additional data. The proposed method measures the amount of change induced by each additional batch of data used to train the model; the internal structure of the model will continue to change as long as the model is still learning. Once the internal structure of the model stops changing, then the model can be considered as \textit{stable} and the training can stop.
+In this paper we propose a completely data-driven method for determining the level of convergence of a semantic model, which enables us to train semantic models with enough data for the model to capture the semantic structure of language and stop the training when the model does not benefit significantly from the additional data. The proposed method measures the amount of change induced by each additional batch of data used to train the model; the internal structure of the model will continue to change as long as the model is still learning. Once the internal structure of the model stops changing, then the model can be considered as \textit{stable} and the training can stop.
 
 The proposed method can be particularly useful when a limited amount of data is available or when the available data should be divided to train several models.
 
@@ -51,30 +55,38 @@ Since their introduction \cite{Mikolov_CS2013}, word embeddings have become incr
 
 \begin{itemize}
  \item \textbf{Language specific} - analogies are usually language specific -- training a word embedding model on a language different from that of the analogies will obviously lead to failing the test;
- \item \textbf{Constrained by vocabulary} - because word embeddings typically have a set vocabulary; analogies which use out-of-vocabulary words, will always fail;
- \item \textbf{Domain specific} - analogies usually fall in a particular knowledge category. For instance the following analogy: \textit{Athens : Greece :: Baghdad : Iraq}, is specific to Geographical facts; a semantic model trained on a data set which does not contain such knowledge (which never mentions these locations) is bound to fail this test. At the same time, a word embedding may have already learnt a domain specific analogy, such as \textit{electron : electricity :: photon : light}, but if this analogy is not reflected on the analogy test set, there is no way to know the semantic model already incorporates this knowledge.
+ \item \textbf{Domain specific} - analogies usually fall in a particular knowledge category. For instance the following analogy: \textit{Athens : Greece :: Baghdad : Iraq}, is specific to Geographical facts; a semantic model trained on a data set which does not contain such knowledge (which never mentions these locations) is bound to fail this test. At the same time, a word embedding may have already learnt a domain specific analogy, such as \textit{electron : electricity :: photon : light}, but if this analogy is not reflected on the analogy test set, there is no way to know the semantic model already incorporates this knowledge;
+ \item \textbf{Constrained by vocabulary} - because word embeddings typically have a set vocabulary; analogies which use out-of-vocabulary words, will always fail. Domain and language specific issues can be considered specific instances of constrained vocabularies.
 \end{itemize}
 
-These issues can be addressed, for instance, by translating the analogy test set, discarding analogies which are irrelevant for the training data being used, constructing suitable analogies, etc. However all of these approaches are labour intensive and must be hand crafted for each training data set. This work is motivated by the desire to find a data driven method to validate word embeddings. The data driven method introduced here does not rely on word analogies and therefore does not require the analogies to be translated or otherwise adapted in order to function. This makes our approach effectively language independent. This may also be particularly useful in cases where the available data for a particular domain is relatively small.
+These issues can be addressed, for instance, by translating the analogy test set, discarding analogies which are irrelevant for the training data being used, constructing analogies suitable for a domain, etc. However all of these approaches are labour intensive and must be hand crafted for each training data set. This work is motivated by the desire to find a data-driven method to validate word embeddings. The data-driven method introduced here does not rely on the vocabulary and, unlike the analogy test, does not require translation or creation of new test sets in order to function. This makes our approach effectively language independent. This may also be particularly useful in cases where the available amount of data for a particular domain is relatively small.
 
-The data driven method for word embedding evaluation measures the amount of change in the semantic space at every stage of the training. Large variation in the semantic space indicates that the model has acquired large amount of knowledge from a given batch of data. Small variation in the semantic space indicates that the given batch of data has contributed little new information to the model. Once the variation in the model falls below a given threshold, the model is assumed to have assimilated enough information from the data to be able to capture the semantic structure of the data set.
+The data-driven method for word embedding evaluation measures the amount of change in the semantic space at every stage of the training. Large variation in the semantic space indicates that the model has acquired a large amount of knowledge from a given batch of data. Small variation in the semantic space indicates that the given batch of data has contributed little new information to the model. Once the variation in the model falls below a given threshold, the model is assumed to have assimilated enough information from the data to be able to capture the semantic structure of the data set.
 
-This paper is structured as follows: Section \ref{sec:method} describes the data-drive procedure for measuring convergence of word embeddings; Section \ref{sec:experiments} describes the setup used to evaluate word embedding convergence; Section \ref{sec:results} discusses the evaluation; concluding remarks are presented in Section \ref{sec:conclusion}.
+This paper is structured as follows: Section \ref{sec:method} describes the data-driven procedure for measuring convergence of word embeddings; Section \ref{sec:experiments} describes the setup used to evaluate word embedding convergence; Section \ref{sec:results} discusses the evaluation; concluding remarks are presented in Section \ref{sec:conclusion}.
 
 \section{Method}
 \label{sec:method}
 
-We will start by giving a brief overview of how semantic models work, more details can be found in the original papers \cite{Mikolov_CS2013}. Semantic models work by creating a semantic space in which each word in the known vocabulary is represented by a vector. This semantic space has dimensions $N$, which is set at the beginning of the training process. The size of the vocabulary, $V$, is also determined from the start. Note that it is not unusual to restrict the vocabulary size to only include words which appear frequently (more than $k$ times) on the corpus. The semantic space is represented by an embedding matrix $S$ of size $NxV$.
+We will start by giving a brief overview of how semantic models work, more details can be found in the original papers \cite{Mikolov_CS2013}. A semantic model ($M$) works by creating a semantic space in which each word ($w$) in the known vocabulary ($V$) is represented by a vector. This semantic space has $N$ dimensions. The number of dimensions is set at the beginning of the training process. The size of the vocabulary, is also determined from the start. Note that it is not unusual to restrict the vocabulary size to only include words which appear frequently (more than $k$ times) in the corpus.
 
-Any given word $w$ in the vocabulary can be represented in "vocabulary space" as a vector of size $V$ using "one-hot" encoding. We can use matrix $S$ to find the embedding of $w$, which we call $e_w$:
+To find the semantic space vector --- or \textit{embedding} --- of a word, we apply the following procedure:
+
+Any given word $w$ in the vocabulary can be represented in \textit{vocabulary space} as a vector of size $V$ using \textit{one-hot} encoding. The linear transformation from vocabulary to semantic space is represented by an embedding matrix $S$ of size $NxV$. We can use matrix $S$ to find the embedding of $w$, which we call $e_w$:
 
 $$e_w = S \cdot w$$
 
-Vector $e_w$ is represented size $N$; words which have similar meaning will be located close by in this semantic space - word similarity is usually measured using cosine similarity [ref?]. The semantic model learns the structure of the semantic space by analysing sentences in the corpus and updating the $S$ matrix. We are interested in finding a matrix $S$ which is a good representation of our data. We need to compare different versions of $S$ changing over time: $S_1$, $S_2, ..., S_t$. Given two points in time, $A$ and $B$, there will be two versions of the embedding matrix, $S_A$ and $S_B$, we want to find a transformation matrix such that:
+where vector $e_w$ is of size $N$. Words which have similar meaning will be located close by in this semantic space [\textbf{TODO: ref paper found by Janneke here}]. Word similarity is usually measured using cosine similarity [ref?]. The semantic model learns the structure of the semantic space by analysing sentences in the corpus and updating the $S$ matrix.
+
+We are interested in finding a matrix $S$ which is a good representation of our data. As we add more data to our semantic model, there will be different versions of $S$ changing over time: $S_1$, $S_2, ..., S_t$. By measuring the amount of change between any two consecutive models, $M_{i-1}$ and $M_i$, we can know how much the model needed to adapt to between $t=i-i$ and $t=i$ to fit the new data presented to the model. As some point in time $t=t^\ast$, the difference between the two models, $M_{t^\ast-1}$ and $M_t^\ast$, will be small enough that we can consider the two models to be equivalent.
+
+We say that two models are equivalent when the local relations from one space are preserved in the other. This can be understood as that there exists a transformation to map between the two spaces.
+
+In order to compare any two points along the training time, $A$ and $B$, we use the two versions of their embedding matrices, $S_A$ and $S_B$. We want to find a transformation matrix such that:
 
 $$S_B \approx S_A \cdot T$$
 
-The transformation matrix $T$ can be found iteratively using the procedure described in Pseudocode 1: (\textbf{@Jisk -- since you wrote this part of the code, do you think it would be better to add a more rigorous mathematical description?})
+The transformation matrix $T$ can be found using the procedure described in Pseudocode 1:
 
 \begin{algorithm}[H]
 % \KwData{this text}
@@ -91,23 +103,26 @@ The transformation matrix $T$ can be found iteratively using the procedure descr
 % }
   \ForEach{ dimension $i$ in the embedded space }{
     $V1_i$ $\leftarrow$ a unit vector along the i-th dimension of the embedded space $S_A$ \;
-    $W_i$ $\leftarrow$ $V1_i$ projected back into vocabulary space \footnote{If the vocabularies are different we need to convert $W_i$ to the other vocabulary} \;
+    $W_i$ $\leftarrow$ $V1_i$ projected back into vocabulary space \footnote{To convert $V1_i$ back into vocabulary space, we take the product of the embedded vector and the inverse of embedding matrix.} \footnote{If the vocabularies are different we need to convert $W_i$ to the other vocabulary} \;
     $V2_i$ $\leftarrow$ $W_i$ projected in embedded space $S_B$ \;
-    $V2_i$ $\leftarrow$ the i-th dimension of the transformation matrix T \;
+    $V2_i$ $\leftarrow$ the i-th dimension of the transformation matrix $T$ \;
   }
  \caption{Find $T$ for $S_A$ to $S_B$}
 \end{algorithm}
 
+$T$ will be of size $NxN$.
 
-\textbf{\textit{NOTE:}} to convert $V1_i$ back into vocabulary space, we take the dot product of the embedded vector and the inverse of embedding matrix.
+Alternatively, one can calculate $T$ using the following equation for each column $T_i$ of $T$:
 
-$T$ will end be of size $NxN$.
+$$T_i = S_B S_A^{-1} V1_i $$
+
+where $V1_i$ is the unit vector along dimension i in the semantic space defined by $S_A$.
 
 We will use the transformation $T$ to measure how much the embedded space has changed between times $A$ and $B$. To ensure that our measure is symmetric, we will calculate two transformation matrices, $T(A,B)$ to go from $A$ to $B$ and $T(B,A)$ to go from $B$ to $A$. We call the element-wise product of these two matrices the divergence matrix:
 
-$D(A,B) = T(A,B) * T(B,A)$
+$$D(A,B) = T(A,B) * T(B,A)$$
 
-It is important to mention that the divergence matrix will be equal the identity matrix if the space embeddings $S_A$ and $S_B$ are equivalent).
+It is important to mention that the divergence matrix will be equal the identity matrix if the space embeddings $S_A$ and $S_B$ are equivalent \footnote{have we defined what do we mean by equivalent?}. This follows from the fact that $T(X,Y)$ will be be the identity when $X$ and $Y$ are equivalent. Therefore, given $A$ and $B$ are equivalent, $T(A,B)$ and $T(B,A)$ will both be the identity, and thus $D(A,B) = T(A,B) * T(B,A)$ will also be the identity. \textbf{NOTE: think / check if the element-wise multiplication makes sense, as pointed out by Patrick.}
 
 \section{Experiments}
 \label{sec:experiments}
@@ -163,11 +178,11 @@ As it can be seen, after the model has been trained with 5 million sentences, th
 
 \section{Conclusion}
 \label{sec:conclusion}
-In this paper we have presented a data driven method for measuring convergence of semantic models. This approach determines when a semantic model has been trained with enough data to capture the semantic structure of the data. This is useful when there is a trade off between longer training and more accurate models.
+In this paper we have presented a data-driven method for measuring convergence of semantic models. This approach determines when a semantic model has been trained with enough data to capture the semantic structure of the data. This is useful when there is a trade off between longer training and more accurate models.
 
 The convergence scores can be visualized as a single value over time, as shown on Figure 1, or as a collection of values as shown on Figure 2. The first form of visualization is more straight forward, while the second provides additional insight into the structure of the semantic space as a whole.
 
-This approach is entirely data driven and does not depend on previous knowledge of the language being modelled or on a manually translated reference corpus. This will help remove previously existing limitations in the application of semantic models.
+This approach is entirely data-driven and does not depend on previous knowledge of the language being modelled or on a manually translated reference corpus. This will help remove previously existing limitations in the application of semantic models.
 
 \section{Notes}
 \begin{itemize}
